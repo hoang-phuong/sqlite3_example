@@ -39,6 +39,7 @@ clean:
 	@$(RM) -rf $(OBJDIR)/*.o
 	@$(RM) -rf $(OUTDIR)/$(APP)
 	@$(RM) -rf $(OUTDIR)/$(APP).map
+	@$(RM) -rf *.db
 
 .PHONY: run
 run: $(OUTDIR)/$(APP)
