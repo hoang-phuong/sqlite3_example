@@ -13,9 +13,9 @@ OBJECTS = $(addprefix $(OBJDIR)/,$(addsuffix .o, $(FILES)))
 VPATH = .: ./$(SRCDIR) ./$(INCDIR)
 
 CFLAGS = -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes \
-		-Waggregate-return -Wcast-qual -Wswitch-default -Wswitch-enum -Wconversion -O \
-		-I $(INCDIR)
-LDFLAGS = -pthread -Xlinker -Map=$(OUTDIR)/$(APP).map
+		-Waggregate-return -Wcast-qual -Wswitch-default -Wswitch-enum -Wconversion -O\
+		-I $(INCDIR) 
+LDFLAGS = -pthread -lsqlite3 -Xlinker -Map=$(OUTDIR)/$(APP).map
 CC = gcc
 RM = rm
 MD = mkdir
@@ -27,7 +27,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(OUTDIR)/$(APP): $(OBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 .PHONY: MDOBJ
 MDOBJ:
@@ -39,3 +39,7 @@ clean:
 	@$(RM) -rf $(OBJDIR)/*.o
 	@$(RM) -rf $(OUTDIR)/$(APP)
 	@$(RM) -rf $(OUTDIR)/$(APP).map
+
+.PHONY: run
+run: $(OUTDIR)/$(APP)
+	$(OUTDIR)/$(APP)
